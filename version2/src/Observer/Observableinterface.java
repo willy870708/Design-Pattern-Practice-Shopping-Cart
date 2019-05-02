@@ -1,0 +1,11 @@
+package Observer;
+
+import model.*;
+
+public interface Observableinterface {
+	public void addtoobservable(Account accout);
+
+	public void remove(Account account);
+
+	public void noftfyObsevers();
+}

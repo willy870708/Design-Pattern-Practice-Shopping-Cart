@@ -1,0 +1,15 @@
+package Observer;
+
+import java.util.ArrayList;
+import model.*;
+
+public class Observable implements Observableinterface {
+	ArrayList<Account> list = new ArrayList<Account>();
+
+	public void add(Account account) {
+		list.add(account);
+	}
+	public void remove(Account account){
+		list.remove(account);
+	}
+}

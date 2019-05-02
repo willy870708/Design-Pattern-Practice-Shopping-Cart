@@ -1,0 +1,24 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.Locale.Category;
+import java.util.TreeMap;
+
+import com.sun.javafx.collections.MappingChange.Map;
+
+import Composite.Component;
+
+public class Composite extends Component{
+	public Category c;
+	public ArrayList<Category> list = new ArrayList<Category>();
+	public Map<Integer,Component>components = new TreeMap<Integer,Component>();
+	public void add(Category c){
+		list.add(c);
+	}
+	public void remove(Product p){
+		list.remove(p);
+	}
+	public Component getChild(int index){
+		return list.get(index);
+	}
+}

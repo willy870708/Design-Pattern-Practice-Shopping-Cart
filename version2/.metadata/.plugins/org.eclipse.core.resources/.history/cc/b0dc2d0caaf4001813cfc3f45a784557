@@ -1,0 +1,7 @@
+package Memento;
+
+public class Orignator {
+public Memento createMemento(){
+	return Memento memento = new Memento();
+}
+}

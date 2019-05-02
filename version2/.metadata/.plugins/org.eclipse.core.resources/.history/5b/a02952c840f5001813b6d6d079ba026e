@@ -1,0 +1,13 @@
+package Command;
+
+import model.PayMent;
+
+public class ClearPayment implements Command {
+	PayMent payment;
+	public void execute() {
+		
+	}
+	ClearPayment(Payment payment){
+		this.payment = payment;
+	}
+}

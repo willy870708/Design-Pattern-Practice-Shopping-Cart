@@ -1,0 +1,17 @@
+package Composite;
+
+
+import model.Product;
+
+public abstract class Component {
+	
+	public void add(Product p) {
+		throw new UnsupportedOperationException();
+	}
+	public void remove(Product p){
+		throw new UnsupportedOperationException();
+	}
+	public Product getChild(int index){
+		throw new UnsupportedOperationException();
+	}
+}

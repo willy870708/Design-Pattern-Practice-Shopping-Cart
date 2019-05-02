@@ -1,0 +1,21 @@
+package Composite;
+
+import java.util.ArrayList;
+import java.util.Locale.Category;
+
+import model.Product;
+
+public class Category extends Composite{
+	public Product p;
+	public ArrayList<Product> list = new ArrayList<Product>();
+	
+	public void add(Product p){
+		list.add(p);
+	}
+	public void remove(Product p){
+		list.remove(p);
+	}
+	public Product getChild(int index){
+		return list.get(index);
+	}
+}

@@ -1,0 +1,24 @@
+package Memento;
+
+import java.util.ArrayList;
+import model.Product;
+
+public class Caretaker {
+	private ArrayList<Memento> save = new ArrayList<Memento>();
+	public void addMemento(Memento memento) {
+		save.add(memento);
+	}
+	public Memento getmemento(int index) {
+		return save.get(index);
+	}
+	public ArrayList<Memento> getsave(){
+		return save;
+	}
+
+	public void remove(int index) {
+		save.remove(index);
+	}
+	public void removeall() {
+		save.clear();
+	}
+}

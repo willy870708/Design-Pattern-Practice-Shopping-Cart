@@ -1,0 +1,102 @@
+package controller;
+
+import Memento.Memento;
+import model.*;
+import view.*;
+
+public class ProductCtl {
+	private static ProductCtl productctl;
+	private ProductManager productmanager= ProductManager.getProductManager();
+	Memento memento = Memento.getMemento();
+	Product i7=ProductManager.getI7();
+	Product i8=ProductManager.getI8();
+	Product asus1=ProductManager.getAsus1();
+	Product asus2=ProductManager.getAsus2();
+	Cart cart = Cart.getcart();
+	public static ProductCtl getproductctl() {
+		if (productctl == null) {
+			productctl = new ProductCtl();
+		}
+		return productctl;
+	}
+	public String geti7message() {		
+		return productmanager.getmessage(i7);
+	}
+	public int geti7quantity() {
+		return productmanager.getQuantity(i7);
+	}
+	
+	public String geti8message() {		
+		return productmanager.getmessage(i8);
+	}
+	public int geti8quantity() {
+		return productmanager.getQuantity(i8);
+	}
+	
+	public String getasus1message() {		
+		return productmanager.getmessage(asus1);
+	}
+	public int getasus1quantity() {
+		return productmanager.getQuantity(asus1);
+	}
+	
+	public String getasus2message() {		
+		return productmanager.getmessage(asus2);
+	}
+	public int getasus2quantity() {
+		return productmanager.getQuantity(asus2);
+	}
+	
+	public Product productaddtocart(Product product,int quantity){
+		return productmanager.productaddtocart(product,quantity);
+	}
+	
+	public String geti7addtocartmessage(int quantity){
+		return productmanager.getmessage(productaddtocart(i7,quantity));
+	}
+	
+	public String geti8addtocartmessage(int quantity){
+		return productmanager.getmessage(productaddtocart(i8,quantity));
+	}
+	
+	public String getasus1addtocartmessage(int quantity){
+		return productmanager.getmessage(productaddtocart(asus1,quantity));
+	}
+	public String getasus2addtocartmessage(int quantity){
+		return productmanager.getmessage(productaddtocart(asus2,quantity));
+	}
+	public void seti7quantity(int quantity) {
+		productmanager.seti7Quantity(i7,quantity);
+	}
+	
+	public void seti8quantity(int quantity) {
+		productmanager.seti8Quantity(i8,quantity);
+	}
+	
+	public void setasus1quantity(int quantity) {
+		productmanager.setasus1Quantity(asus1,quantity);
+	}
+	
+	public void setasus2quantity(int quantity) {
+		productmanager.setasus2Quantity(asus2,quantity);
+	}
+//	public String modifyasus2quantity(int quantity) {
+//		return productmanager.modifymessage(asus2,quantity);
+//	}
+	public Product geti7() {
+		return productmanager.getI7();
+	}
+	public Product geti8() {
+		return productmanager.getI8();
+	}
+	public Product getasus1() {
+		return productmanager.getAsus1();
+	}
+	public Product getasus2() {
+		return productmanager.getAsus2();
+	}
+	public void setallstate() {
+		productmanager.setallstate();
+	}
+
+}

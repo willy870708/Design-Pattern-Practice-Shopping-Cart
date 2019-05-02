@@ -1,0 +1,31 @@
+package Iterator;
+
+import model.Account;
+
+public class AccountAggregate implements Aggregate {
+
+	private Account[] account;
+	private int last = 0;
+
+	public AccountAggregate(int maxsize) {
+		this.account = new Account[maxsize];
+	}
+
+	public Book getBookAt(int index) {
+		return books[index];
+	}
+
+	public void appendBook(Book book) {
+		this.books[last] = book;
+		last++;
+	}
+
+	public int getLength() {
+		return last;
+	}
+
+	public Iterator iterator() {
+		return new BookShelfIterator(this);
+	}
+
+}

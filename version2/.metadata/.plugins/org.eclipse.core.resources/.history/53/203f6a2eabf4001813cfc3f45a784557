@@ -1,0 +1,13 @@
+package Memento;
+
+import model.Product;
+
+public class Orignator {
+	public Product product;
+
+	public Memento createMemento() {
+		Memento memento = new Memento();
+		return memento;
+	}
+
+}

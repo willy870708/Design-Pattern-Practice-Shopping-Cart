@@ -1,0 +1,13 @@
+package model;
+
+import javax.swing.JOptionPane;
+
+public class Receipt {
+	Receipt(){};
+	public void clearReceipt(){
+		JOptionPane.showMessageDialog(null, "Receipt has been clear!!!");
+	}
+	public void storeReceipt(){
+		JOptionPane.showMessageDialog(null, "Receipt has been stored!!");
+	}
+}

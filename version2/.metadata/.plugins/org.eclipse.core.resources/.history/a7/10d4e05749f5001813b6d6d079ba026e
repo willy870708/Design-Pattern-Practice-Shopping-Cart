@@ -1,0 +1,17 @@
+package Composite;
+
+import java.util.ArrayList;
+
+import model.Product;
+
+public class Composite extends Component{
+	public String Brand;
+	public ArrayList<Product> list = new ArrayList<Product>();
+	
+	public void add(Product p){
+		list.add(p);
+	}
+	public void remove(Product p){
+		list.remove(p);
+	}
+}

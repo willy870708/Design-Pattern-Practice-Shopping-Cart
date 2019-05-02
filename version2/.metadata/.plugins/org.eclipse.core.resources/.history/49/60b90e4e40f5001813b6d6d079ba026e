@@ -1,0 +1,11 @@
+package model;
+
+import javax.swing.JOptionPane;
+
+public class PayMent {
+	PayMent(){};
+	public void clearPayMent() {
+		JOptionPane.showMessageDialog(null, "PayMent has been clear!!!");
+	}
+
+}

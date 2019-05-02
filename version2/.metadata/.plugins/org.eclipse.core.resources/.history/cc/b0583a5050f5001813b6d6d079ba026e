@@ -1,0 +1,22 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.Locale.Category;
+
+import Composite.Component;
+
+public class Category extends Composite{
+	public Product p;
+	public ArrayList<Product> product;
+	public ArrayList<Component> components = new ArrayList<Component>();
+	
+	public void add(Product p){
+		list.add(p);
+	}
+	public void remove(Product p){
+		list.remove(p);
+	}
+	public Component getChild(int index){
+		return list.get(index);
+	}
+}

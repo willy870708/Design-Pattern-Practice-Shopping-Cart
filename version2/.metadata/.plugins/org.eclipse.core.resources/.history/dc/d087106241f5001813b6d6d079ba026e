@@ -1,0 +1,13 @@
+package Command;
+
+import model.Receipt;
+
+public class ClearReceipt implements Command {
+	Receipt receipt;
+	public void execute() {
+		receipt.clearReceipt();
+	}
+	ClearReceipt(Receipt receipt){
+		this.receipt = receipt;
+	}
+}

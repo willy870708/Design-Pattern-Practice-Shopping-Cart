@@ -1,0 +1,12 @@
+package Command;
+
+import model.Order;
+
+public class ClearOrder implements Command{
+	public void execute(){
+		Order order;
+		 ClearOrder(Order order){
+			this.order=order;
+		}
+	}
+}

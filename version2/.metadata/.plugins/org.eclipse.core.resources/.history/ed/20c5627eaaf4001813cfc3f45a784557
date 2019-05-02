@@ -1,0 +1,12 @@
+package Memento;
+
+import java.util.ArrayList;
+import model.*;
+
+public class Memento {
+	Product product;
+
+	public Memento(Product product) {
+		this.product = product;
+	}
+}

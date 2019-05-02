@@ -1,0 +1,11 @@
+package Composite;
+
+import java.util.ArrayList;
+
+import model.Product;
+
+public class Composite extends Component{
+	public String Brand;
+	public ArrayList<Product> list = new ArrayList<Product>();
+	
+}

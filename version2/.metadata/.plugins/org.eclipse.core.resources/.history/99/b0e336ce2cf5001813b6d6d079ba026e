@@ -1,0 +1,31 @@
+package Iterator;
+
+import model.Account;
+
+public class AccountAggregate implements Aggregate {
+
+	private Account[] account;
+	private int last = 0;
+
+	public AccountAggregate(int maxsize) {
+		this.account = new Account[maxsize];
+	}
+
+	public Account getBookAt(int index) {
+		return account[index];
+	}
+
+	public void appendAccount(Account book) {
+		this.account[last] = book;
+		last++;
+	}
+
+	public int getLength() {
+		return last;
+	}
+
+	public Iterator iterator() {
+		return new ConcreteIterator(this);
+	}
+
+}

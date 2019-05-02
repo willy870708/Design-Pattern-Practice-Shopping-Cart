@@ -1,0 +1,19 @@
+package Composite;
+
+
+import java.util.Locale.Category;
+
+import model.Product;
+
+public abstract class Component {
+	
+	public void add(Product p) {
+		throw new UnsupportedOperationException();
+	}
+	public void remove(Product p){
+		throw new UnsupportedOperationException();
+	}
+	public Category getChild(int index){
+		throw new UnsupportedOperationException();
+	}
+}

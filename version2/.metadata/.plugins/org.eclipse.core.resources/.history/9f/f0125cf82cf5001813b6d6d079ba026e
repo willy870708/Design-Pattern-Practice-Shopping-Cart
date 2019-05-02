@@ -1,0 +1,40 @@
+package Observer;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.JOptionPane;
+
+import Iterator.AccountAggregate;
+import model.*;
+
+public class Observablei7 implements Observableinterface {
+	ArrayList<Account> list = new ArrayList<Account>();
+	AccountAggregate aa = new AccountAggregate(100);
+	Iterator<Account> iterator = list.iterator();
+
+	public void addtoobservable(Account account) {
+		list.add(account);
+		aa.appendAccount(account);
+	}
+
+	public void remove(Account account) {
+		if (list.size() != 0) {
+			list.remove(account);
+			JOptionPane.showMessageDialog(null, "Already cancel subscribe!!");
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"you have not subscribed this product!!");
+		}
+	}
+
+	public void noftfyObsevers() {
+		while(iterator.hasNext()){
+			Account a = aa.next();
+			a.update();
+		}
+//		for (Account a : list) {
+//			a.update();
+//		}
+	}
+}

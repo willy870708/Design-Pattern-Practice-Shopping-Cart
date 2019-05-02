@@ -1,0 +1,105 @@
+package view;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.EventQueue;
+
+import controller.*;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.awt.event.ActionEvent;
+
+public class LoginGUI {
+
+	private JFrame frmLogingui;
+	private JTextField textid;
+	private JPasswordField passwordid;
+	private AccountCtl accountctl;
+	ShoppingGUI shoppinggui;
+	char[] root = { 'r', 'o', 'o', 't' };
+	/**
+	 * Launch the application.
+	 */
+	public void show() {
+		LoginGUI window = new LoginGUI();
+		window.frmLogingui.setVisible(true);
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public LoginGUI() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		accountctl = AccountCtl.getAccountCtl();
+		frmLogingui = new JFrame();
+		frmLogingui.setTitle("LoginGUI");
+		frmLogingui.setBounds(100, 100, 450, 300);
+		frmLogingui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmLogingui.getContentPane().setLayout(null);
+		
+		JLabel lbid = new JLabel("Input ID");
+		lbid.setFont(new Font("新細明體", Font.PLAIN, 20));
+		lbid.setBounds(49, 36, 87, 47);
+		frmLogingui.getContentPane().add(lbid);
+		
+		final JTextField textid = new JTextField();
+		textid.setColumns(10);
+		textid.setBounds(165, 48, 116, 25);
+		frmLogingui.getContentPane().add(textid);
+		
+		JLabel lbpsw = new JLabel("Input PSW");
+		lbpsw.setFont(new Font("新細明體", Font.PLAIN, 20));
+		lbpsw.setBounds(49, 102, 87, 47);
+		frmLogingui.getContentPane().add(lbpsw);
+		
+		final JPasswordField passwordid = new JPasswordField();
+		passwordid.setBounds(165, 114, 116, 25);
+		frmLogingui.getContentPane().add(passwordid);
+		
+		JButton confirm = new JButton("Log in");
+		confirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(textid.getText().isEmpty() || Arrays.equals(passwordid.getPassword(), null)) {
+					JOptionPane.showMessageDialog(null, "please input id or password!!");
+				}
+				else if(textid.getText().equals("root")&&Arrays.equals(passwordid.getPassword(), root)){
+					ManageProductGUI window = new ManageProductGUI();
+					window.show();
+				}
+				else {
+					accountctl.login(textid.getText(),passwordid.getPassword());
+				}
+				frmLogingui.dispose();	
+			}
+			
+		});
+		confirm.setBounds(296, 114, 99, 27);
+		frmLogingui.getContentPane().add(confirm);
+		
+		JButton firstlogin = new JButton("Register");
+		firstlogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterGUI window = new RegisterGUI();
+				window.show();
+			}
+		});
+		firstlogin.setBounds(296, 154, 99, 27);
+		frmLogingui.getContentPane().add(firstlogin);
+	}
+}

@@ -1,0 +1,12 @@
+package model;
+
+import javax.swing.JOptionPane;
+
+public class Order {
+	public void clearOrder(){
+		JOptionPane.showMessageDialog(null, "Order has been clear!!!");
+	}
+	public void storeOrder(){
+		JOptionPane.showMessageDialog(null, "Order has been stored!!");
+	}
+}

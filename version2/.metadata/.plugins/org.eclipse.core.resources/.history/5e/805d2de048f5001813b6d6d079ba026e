@@ -1,0 +1,6 @@
+package Composite;
+
+public class Composite extends Component{
+	public String Brand;
+	public ArrayList
+}

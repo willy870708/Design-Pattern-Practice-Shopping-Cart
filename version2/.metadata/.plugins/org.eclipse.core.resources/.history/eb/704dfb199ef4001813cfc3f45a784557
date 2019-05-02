@@ -1,0 +1,22 @@
+package Observer;
+
+import java.util.ArrayList;
+import model.*;
+
+public class Observablei7 implements Observableinterface {
+	ArrayList<Account> list = new ArrayList<Account>();
+
+	public void addtoobservable(Account account) {
+		list.add(account);
+	}
+
+	public void remove(Account account) {
+		list.remove(account);
+	}
+
+	public void noftfyObsevers() {
+		for (Account a : list) {
+			a.update();
+		}
+	}
+}

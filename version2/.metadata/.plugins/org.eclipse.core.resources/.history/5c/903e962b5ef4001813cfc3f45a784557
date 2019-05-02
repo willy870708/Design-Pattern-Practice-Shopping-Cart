@@ -1,0 +1,72 @@
+package controller;
+
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
+import Observer.Observablei7;
+import model.*;
+import view.*;
+
+public class AccountCtl {
+	private AccountManager accountManager = AccountManager.getAccountManager();
+	private static AccountCtl accountctl;
+	Account account;
+
+	private AccountCtl() {
+	}
+
+	public static AccountCtl getAccountCtl() {
+		if (accountctl == null) {
+			accountctl = new AccountCtl();
+		}
+		return accountctl;
+	}
+
+	public void register(String id, char[] psw) {
+		Account account = new Account(id, psw, false);
+		accountManager.registeraccount(account);
+
+	}
+
+	public void login(String id, char[] psw) {
+		if (accountManager.loggin(id, psw).getrootstate() == true) {
+			ManageProductGUI window = new ManageProductGUI();
+			window.show();
+		} else if (accountManager.getAccountlist().isEmpty()) {
+			JOptionPane.showMessageDialog(null,
+					"fisrt log in, please register!!");
+		} else if (accountManager.loggin(id, psw) != null) {
+			JOptionPane.showMessageDialog(null, "log in successful!!");
+			account = accountManager.loggin(id, psw);
+		} else {
+			JOptionPane.showMessageDialog(null, "log in fail!!");
+		}
+	}
+
+	public String getid() {
+		return account.getId();
+	}
+
+	public void logout() {
+		accountManager.setState();
+	}
+
+	public Account getaccount() {
+		return account;
+	}
+
+	public boolean getstate() {
+		return accountManager.accountstate();
+	}
+
+	public Cart getcart() {
+		return account.getCart();
+	}
+
+	public void subscribe() {
+
+		Observablei7 obi7 = new Observablei7();
+		obi7.addtoobservable(account.getAccount());
+	}
+}

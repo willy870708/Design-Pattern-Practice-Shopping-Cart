@@ -1,0 +1,255 @@
+package view;
+
+import controller.*;
+import java.awt.EventQueue;
+import java.util.ArrayList;
+import Memento.*;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import Memento.*;
+import controller.AccountCtl;
+import controller.CartCtl;
+import controller.ProductCtl;
+import model.Product;
+
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.JSpinner;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
+
+public class CartGUI {
+
+	private JFrame frmCartgui;
+	CartCtl cartCtl;
+	AccountCtl accountctl;
+	ProductCtl productctl;
+	Orignator orignator = new Orignator();
+	Memento memento;
+	Caretaker caretaker = new Caretaker();
+	int i = 1, x = 0;
+
+	/**
+	 * Launch the application.
+	 */
+
+	public static void show() {
+		CartGUI window = new CartGUI();
+		window.frmCartgui.setVisible(true);
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public CartGUI() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmCartgui = new JFrame();
+	
+		
+		frmCartgui.setTitle("CartGUI");
+		frmCartgui.setBounds(100, 100, 619, 521);
+		frmCartgui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE );
+		frmCartgui.getContentPane().setLayout(null);
+		accountctl = AccountCtl.getAccountCtl();
+		cartCtl = CartCtl.getcartctl();
+		productctl = ProductCtl.getproductctl();
+		final JList list = new JList();
+	
+		list.setFont(new Font("新細明體", Font.PLAIN, 20));
+		list.setBounds(14, 86, 299, 302);
+		frmCartgui.getContentPane().add(list);
+		final DefaultListModel<Product> listModel = new DefaultListModel<>();
+		final DefaultListModel<String> listModel2 = new DefaultListModel<>();
+
+		for (Product a : accountctl.getcart().getProductlist()) {
+			String text = a.getName() + "   " + a.getBrand() + "      " + a.getPrice() + "   " + a.getQuantity();
+			listModel.addElement(a);
+			listModel2.addElement(text);
+		}
+		list.setModel(listModel2);
+		final JLabel lblNewLabel = new JLabel("Total price: "
+				+ String.valueOf(cartCtl.getprice(accountctl.getcart().getProductlist())) + "  dollars");
+		lblNewLabel.setFont(new Font("新細明體", Font.BOLD, 20));
+		lblNewLabel.setBounds(116, 413, 241, 19);
+		frmCartgui.getContentPane().add(lblNewLabel);
+		JButton btnNewButton = new JButton("Payment");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PaymentGUI window = new PaymentGUI();
+				window.show();
+				frmCartgui.dispose();
+			}
+		});
+		btnNewButton.setFont(new Font("新細明體", Font.PLAIN, 20));
+		btnNewButton.setBounds(388, 365, 99, 27);
+		frmCartgui.getContentPane().add(btnNewButton);
+
+		JButton button = new JButton("Delete");
+		button.setFont(new Font("新細明體", Font.PLAIN, 20));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (accountctl.getcart().getProductlist().isEmpty() || list.isSelectionEmpty()) {
+					JOptionPane.showMessageDialog(null, "already empty!! or choose one to delete");
+				} else {
+					orignator.set(listModel.getElementAt(list.getSelectedIndex()));
+					listModel.getElementAt(list.getSelectedIndex()).setState(false);
+					caretaker.addMemento(orignator.saveToMemento());
+					accountctl.getcart().delproduct(list.getSelectedIndex());
+					listModel.removeElementAt(list.getSelectedIndex());
+					listModel2.removeElementAt(list.getSelectedIndex());
+					listModel2.removeAllElements();
+					for (Product a : accountctl.getcart().getProductlist()) {
+						String text = a.getName() + "    " + a.getBrand() + "      " + a.getPrice() + "   " + a.getQuantity();
+						listModel2.addElement(text);
+					}
+				}
+				list.setModel(listModel2);
+				lblNewLabel.setText("Total price: "
+				+ String.valueOf(cartCtl.getprice(accountctl.getcart().getProductlist())) + "  dollars");
+			}
+		});
+		button.setBounds(386, 285, 99, 27);
+		frmCartgui.getContentPane().add(button);
+
+		final JLabel label = new JLabel("HELP");
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				label.setToolTipText(
+						"This is CartGUI,you can delete or undo here, when you check your products, you can press the Payment button!");
+			}
+		});
+		label.setForeground(Color.RED);
+		label.setBounds(458, 414, 57, 19);
+		frmCartgui.getContentPane().add(label);
+
+		JLabel lblProductListIn = new JLabel("Product list in your cart");
+		lblProductListIn.setFont(new Font("新細明體", Font.BOLD, 20));
+		lblProductListIn.setBounds(62, 13, 225, 19);
+		frmCartgui.getContentPane().add(lblProductListIn);
+		JButton btnUndo = new JButton("Undo");
+		btnUndo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (caretaker.getsave().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "nothing to undo!!");
+				} else {
+					listModel.addElement(caretaker.getmemento(0).getProduct());
+					accountctl.getcart().addcart(caretaker.getmemento(0).getProduct());
+					caretaker.remove(0);
+					listModel2.removeAllElements();
+					for (Product a : accountctl.getcart().getProductlist()) {
+						String text = a.getName() + "    " + a.getBrand() + "      " + a.getPrice() + "   " + a.getQuantity();
+						listModel2.addElement(text);
+					}
+				}
+				list.setModel(listModel2);
+				lblNewLabel.setText("Total price: "
+				+ String.valueOf(cartCtl.getprice(accountctl.getcart().getProductlist())) + "  dollars");
+			}
+		});
+		btnUndo.setFont(new Font("新細明體", Font.PLAIN, 20));
+		btnUndo.setBounds(386, 325, 99, 27);
+		frmCartgui.getContentPane().add(btnUndo);
+		JLabel label_1 = new JLabel("Name      Brand    Price    Quantity");
+		label_1.setFont(new Font("新細明體", Font.BOLD, 20));
+		label_1.setBounds(14, 54, 300, 19);
+		frmCartgui.getContentPane().add(label_1);
+		
+		final JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("新細明體", Font.PLAIN, 20));
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (comboBox.getSelectedIndex() == 0) {
+					APPLEGUI.show();
+					frmCartgui.dispose();
+				} else if (comboBox.getSelectedIndex() == 1) {
+					ASUSGUI window = new ASUSGUI();
+					window.show();
+					frmCartgui.dispose();
+				}
+			}
+		});
+		comboBox.setSelectedIndex(-1);
+		comboBox.setBounds(386, 247, 100, 25);
+		frmCartgui.getContentPane().add(comboBox);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "APPLE", "ASUS" }));
+		JLabel lblAddNewProduct = new JLabel("Add new product");
+		lblAddNewProduct.setFont(new Font("新細明體", Font.PLAIN, 20));
+		lblAddNewProduct.setBounds(367, 213, 154, 19);
+		frmCartgui.getContentPane().add(lblAddNewProduct);
+		
+		JButton button_1 = new JButton("+");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(list.isSelectionEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please choose a product!!");
+				}
+				else {
+					cartCtl.addtocart(listModel.getElementAt(list.getSelectedIndex()), listModel.getElementAt(list.getSelectedIndex()).getQuantity()+1);
+					listModel2.removeAllElements();
+					for (Product a : accountctl.getcart().getProductlist()) {
+						String text = a.getName() + "   " + a.getBrand() + "      " + a.getPrice() + "   " + a.getQuantity();
+						listModel2.addElement(text);
+					}
+				}
+				
+				list.setModel(listModel2);
+				lblNewLabel.setText("Total price: "
+						+ String.valueOf(cartCtl.getprice(accountctl.getcart().getProductlist())) + "  dollars");
+			}
+		});
+		button_1.setBounds(385, 163, 41, 27);
+		frmCartgui.getContentPane().add(button_1);
+		
+		JButton button_2 = new JButton("-");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(list.isSelectionEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please choose a product!!");
+				}
+				else if(listModel.getElementAt(list.getSelectedIndex()).getQuantity()==0) {
+					JOptionPane.showMessageDialog(null, "Already 0!!");
+				}
+					else {
+					cartCtl.addtocart(listModel.getElementAt(list.getSelectedIndex()), listModel.getElementAt(list.getSelectedIndex()).getQuantity()-1);
+					listModel2.removeAllElements();
+					for (Product a : accountctl.getcart().getProductlist()) {
+						String text = a.getName() + "   " + a.getBrand() + "      " + a.getPrice() + "   " + a.getQuantity();
+						listModel2.addElement(text);
+					}
+				}
+				
+				list.setModel(listModel2);
+				lblNewLabel.setText("Total price: "
+						+ String.valueOf(cartCtl.getprice(accountctl.getcart().getProductlist())) + "  dollars");
+			}
+		});
+		button_2.setBounds(443, 163, 41, 27);
+		frmCartgui.getContentPane().add(button_2);
+		
+		JLabel lblChooseAProduct = new JLabel("Choose a product to modify quantity");
+		lblChooseAProduct.setFont(new Font("新細明體", Font.PLAIN, 20));
+		lblChooseAProduct.setBounds(319, 128, 293, 19);
+		frmCartgui.getContentPane().add(lblChooseAProduct);
+	}
+}
